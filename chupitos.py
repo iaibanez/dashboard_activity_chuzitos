@@ -9,16 +9,16 @@ df = pd.read_csv("restaurante_baq_demanda_500_dias_2025_2026.csv")
 df['date'] = pd.to_datetime(df['date'])
 
 # 3. Define product_columns, costs, and selling_prices
-product_columns = ['Perros calientes', 'Pizza', 'Hamburguesa', 'Salchipapa', 'Chuzo Desgranado', 'Asados', 'Coca cola', 'Limonada', 'Cerveza']
+product_columns = ['Perros_calientes', 'Pizza', 'Hamburguesa', 'Salchipapa', 'Chuzo_Desgranado', 'Asados', 'Coca_cola', 'Limonada', 'Cerveza']
 
 costs = {
     'Perros calientes': 6000,
     'Pizza': 10000,
     'Hamburguesa': 17000,
     'Salchipapa': 12000,
-    'Chuzo Desgranado': 9000,
+    'Chuzo_Desgranado': 9000,
     'Asados': 8000,
-    'Coca cola': 1500,
+    'Coca_cola': 1500,
     'Limonada': 5000,
     'Cerveza': 1500
 }
@@ -28,9 +28,9 @@ selling_prices = {
     'Pizza': 20000,
     'Hamburguesa': 25000,
     'Salchipapa': 17000,
-    'Chuzo Desgranado': 15000,
+    'Chuzo_Desgranado': 15000,
     'Asados': 15000,
-    'Coca cola': 6000,
+    'Coca_cola': 6000,
     'Limonada': 10000,
     'Cerveza': 4000
 }
