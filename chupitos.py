@@ -12,7 +12,7 @@ df['date'] = pd.to_datetime(df['date'])
 product_columns = ['Perros_calientes', 'Pizza', 'Hamburguesa', 'Salchipapa', 'Chuzo_Desgranado', 'Asados', 'Coca_cola', 'Limonada', 'Cerveza']
 
 costs = {
-    'Perros calientes': 6000,
+    'Perros_calientes': 6000,
     'Pizza': 10000,
     'Hamburguesa': 17000,
     'Salchipapa': 12000,
