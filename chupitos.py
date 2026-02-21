@@ -75,7 +75,7 @@ for product in product_columns:
     df[f'{product}_costo_diario'] = costs[product] * df[product]
     cost_columns.append(f'{product}_costo_diario') # Corrected: Removed extra '_costo'
 df_costs_melted = df.melt(id_vars=['date'], value_vars=cost_columns, var_name='Product Cost', value_name='Daily Cost')
-df_costs_melted['Product Cost'] = df_costs_melted['Product Cost'].map(product_columns)
+# df_costs_melted['Product Cost'] = df_costs_melted['Product Cost'].map(product_columns)
 
 # -------------------------
 # DATA PREPARATION
