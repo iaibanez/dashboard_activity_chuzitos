@@ -18,7 +18,7 @@ costs = {
     'Salchipapa': 12000,
     'Chuzo Desgranado': 9000,
     'Asados': 8000,
-    'Coca_cola': 1500,
+    'Coca cola': 1500,
     'Limonada': 5000,
     'Cerveza': 1500
 }
