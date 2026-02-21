@@ -9,14 +9,14 @@ df = pd.read_csv("restaurante_baq_demanda_500_dias_2025_2026.csv")
 df['date'] = pd.to_datetime(df['date'])
 
 # 3. Define product_columns, costs, and selling_prices
-product_columns = ['Perros_calientes', 'Pizza', 'Hamburguesa', 'Salchipapa', 'Chuzo_Desgranado', 'Asados', 'Coca_cola', 'Limonada', 'Cerveza']
+product_columns = ['Perros calientes', 'Pizza', 'Hamburguesa', 'Salchipapa', 'Chuzo Desgranado', 'Asados', 'Coca cola', 'Limonada', 'Cerveza']
 
 costs = {
-    'Perros_calientes': 6000,
+    'Perros calientes': 6000,
     'Pizza': 10000,
     'Hamburguesa': 17000,
     'Salchipapa': 12000,
-    'Chuzo_Desgranado': 9000,
+    'Chuzo Desgranado': 9000,
     'Asados': 8000,
     'Coca_cola': 1500,
     'Limonada': 5000,
@@ -24,13 +24,13 @@ costs = {
 }
 
 selling_prices = {
-    'Perros_calientes': 15000,
+    'Perros calientes': 15000,
     'Pizza': 20000,
     'Hamburguesa': 25000,
     'Salchipapa': 17000,
-    'Chuzo_Desgranado': 15000,
+    'Chuzo Desgranado': 15000,
     'Asados': 15000,
-    'Coca_cola': 6000,
+    'Coca cola': 6000,
     'Limonada': 10000,
     'Cerveza': 4000
 }
@@ -75,6 +75,7 @@ for product in product_columns:
     df[f'{product}_costo_diario'] = costs[product] * df[product]
     cost_columns.append(f'{product}_costo_diario') # Corrected: Removed extra '_costo'
 df_costs_melted = df.melt(id_vars=['date'], value_vars=cost_columns, var_name='Product Cost', value_name='Daily Cost')
+df_costs_melted['Product Cost'] = df_costs_melted['Product Cost'].map(product_columns)
 
 # -------------------------
 # DATA PREPARATION
