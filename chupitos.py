@@ -114,7 +114,10 @@ monthly_combined_melted = pd.merge(
 # -------------------------
 st.set_page_config(page_title="Restaurant Demand Dashboard", layout="wide")
 
-st.title("Restaurant Demand & Cost Analysis Dashboard")
+# Logo
+st.image("chuzitos-logo-ok.png", width=150)
+
+st.title("Chuzitos Demand & Cost Analysis Dashboard")
 
 st.markdown("""
 This dashboard analyzes **500 days of demand data** from an international fast-food restaurant.
