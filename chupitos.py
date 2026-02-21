@@ -73,45 +73,64 @@ overall_average_demand = df[specific_products].mean()
 cost_columns = []
 for product in product_columns:
     df[f'{product}_costo_diario'] = costs[product] * df[product]
-    cost_columns.append(f'{product}_costo_diario')
+    cost_columns.append(f'{product}_costo_diario') # Corrected: Removed extra '_costo'
 df_costs_melted = df.melt(id_vars=['date'], value_vars=cost_columns, var_name='Product Cost', value_name='Daily Cost')
+
+# --- New Data Preparation for Monthly Scatter Plot (2025) ---
+df_2025 = df[df['date'].dt.year == 2025].copy()
+df_2025['month'] = df_2025['date'].dt.month
+
+product_profit_columns = [f'{p}_ganancia' for p in product_columns]
+
+monthly_aggregated_data_detailed = df_2025.groupby('month')[product_columns + product_profit_columns].sum().reset_index()
+
+monthly_demand_melted = monthly_aggregated_data_detailed.melt(
+    id_vars='month',
+    value_vars=product_columns,
+    var_name='Product',
+    value_name='Demand'
+)
+
+monthly_profit_melted = monthly_aggregated_data_detailed.melt(
+    id_vars='month',
+    value_vars=product_profit_columns,
+    var_name='Product_Profit_Col',
+    value_name='Profit'
+)
+
+monthly_profit_melted['Product'] = monthly_profit_melted['Product_Profit_Col'].str.replace('_ganancia', '')
+
+monthly_combined_melted = pd.merge(monthly_demand_melted, monthly_profit_melted[['month', 'Product', 'Profit']], on=['month', 'Product'])
 
 # Streamlit App Title
 st.title("Product Demand and Cost Analysis Dashboard")
 
-# --- Plot 1: Interactive Scatter Plot of Product Demand Over Time with Year Slider ---
+# --- Plot 1: Monthly Product Demand and Profit Scatter Plot (2025) ---
 
-# Extract year from date for filtering
-df['year'] = df['date'].dt.year
-
-# Select Year with Slider
-selected_year = st.slider(
-    "Select Year for Time-Series Scatter Plot:",
-    min_value=int(df['year'].min()),
-    max_value=int(df['year'].max()),
-    value=int(df['year'].min()),
+selected_month = st.slider(
+    "Select Month for Product Demand and Profit (2025):",
+    min_value=int(monthly_combined_melted['month'].min()),
+    max_value=int(monthly_combined_melted['month'].max()),
+    value=int(monthly_combined_melted['month'].min()),
     step=1
 )
 
-# Filter data for the selected year
-filtered_df_ts = df[df['year'] == selected_year]
+filtered_monthly_data = monthly_combined_melted[monthly_combined_melted['month'] == selected_month]
 
-df_melted_demand_ts = filtered_df_ts.melt(id_vars=['date'], value_vars=product_columns, var_name='Product', value_name='Demand')
-
-# Create Plotly Scatter Plot for product demand over time
-fig_ts = px.scatter(
-    df_melted_demand_ts,
-    x='date',
+fig_monthly_scatter = px.scatter(
+    filtered_monthly_data,
+    x='Product',
     y='Demand',
+    size='Profit',
     color='Product',
-    title=f'Product Demand Over Time (Selected Year: {selected_year})',
-    labels={'date': 'Date', 'Demand': 'Demand Quantity', 'Product': 'Product Type'},
+    title=f'Monthly Product Demand and Profit for Month {selected_month} (2025)',
+    labels={'Demand': 'Total Demand', 'Profit': 'Total Profit'},
     color_discrete_sequence=px.colors.qualitative.Plotly,
-    hover_data={'date': '|%Y-%m-%d', 'Demand': True, 'Product': True}
+    hover_data={'Product': True, 'Demand': True, 'Profit': True, 'month': True}
 )
 
-fig_ts.update_layout(hovermode="x unified")
-st.plotly_chart(fig_ts, width='stretch')
+fig_monthly_scatter.update_layout(hovermode="x unified")
+st.plotly_chart(fig_monthly_scatter, width='stretch')
 
 # --- End Plot 1 ---
 
