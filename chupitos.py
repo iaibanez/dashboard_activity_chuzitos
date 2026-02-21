@@ -24,7 +24,7 @@ costs = {
 }
 
 selling_prices = {
-    'Perros calientes': 15000,
+    'Perros_calientes': 15000,
     'Pizza': 20000,
     'Hamburguesa': 25000,
     'Salchipapa': 17000,
