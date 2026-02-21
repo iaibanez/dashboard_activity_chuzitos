@@ -79,14 +79,41 @@ df_costs_melted = df.melt(id_vars=['date'], value_vars=cost_columns, var_name='P
 # Streamlit App Title
 st.title("Product Demand and Cost Analysis Dashboard")
 
-# Plot 1: Time-series plot of product demand
-df_melted_demand_ts = df.melt(id_vars=['date'], value_vars=product_columns, var_name='Product', value_name='Demand')
-fig_ts = px.line(df_melted_demand_ts, x='date', y='Demand', color='Product',
-              title='Product Demand Over Time (All Specified Products)',
-              labels={'date': 'Date', 'Demand': 'Demand Quantity', 'Product': 'Product Type'},
-              color_discrete_sequence=px.colors.qualitative.Plotly)
+# --- Plot 1: Interactive Scatter Plot of Product Demand Over Time with Year Slider ---
+
+# Extract year from date for filtering
+df['year'] = df['date'].dt.year
+
+# Select Year with Slider
+selected_year = st.slider(
+    "Select Year for Time-Series Scatter Plot:",
+    min_value=int(df['year'].min()),
+    max_value=int(df['year'].max()),
+    value=int(df['year'].min()),
+    step=1
+)
+
+# Filter data for the selected year
+filtered_df_ts = df[df['year'] == selected_year]
+
+df_melted_demand_ts = filtered_df_ts.melt(id_vars=['date'], value_vars=product_columns, var_name='Product', value_name='Demand')
+
+# Create Plotly Scatter Plot for product demand over time
+fig_ts = px.scatter(
+    df_melted_demand_ts,
+    x='date',
+    y='Demand',
+    color='Product',
+    title=f'Product Demand Over Time (Selected Year: {selected_year})',
+    labels={'date': 'Date', 'Demand': 'Demand Quantity', 'Product': 'Product Type'},
+    color_discrete_sequence=px.colors.qualitative.Plotly,
+    hover_data={'date': '|%Y-%m-%d', 'Demand': True, 'Product': True}
+)
+
 fig_ts.update_layout(hovermode="x unified")
 st.plotly_chart(fig_ts, width='stretch')
+
+# --- End Plot 1 ---
 
 # Plot 2: Bar plot of average product demand per weekday
 fig_weekday = px.bar(
