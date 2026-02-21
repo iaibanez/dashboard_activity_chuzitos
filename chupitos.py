@@ -120,7 +120,7 @@ st.image("chuzitos-logo-ok.png", width=150)
 st.title("Chuzitos Demand & Cost Analysis Dashboard")
 
 st.markdown("""
-This dashboard analyzes **500 days of demand data** from an international fast-food restaurant.
+This dashboard analyzes **500 days of demand data** from **The Best** international fast-food restaurant in the world.
 The objective is to:
 
 - Identify **high-demand periods throughout the year**
@@ -133,10 +133,10 @@ The objective is to:
 # Tabs
 # -------------------------
 tab1, tab2, tab3, tab4 = st.tabs([
-    "Monthly Performance",
-    "Weekly Demand",
-    "Holiday Impact",
-    "Cost Analysis"
+    "📈 Monthly Performance",
+    "📅 Weekly Demand",
+    "🎉 Holiday Impact",
+    "💰 Cost Analysis"
 ])
 
 # -------------------------
